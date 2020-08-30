@@ -32,5 +32,12 @@ firebase.initializeApp(firebaseConfig)
 const firestore = firebase.firestore()
 
 const createStoreWithFirebase = compose(
-  reactReduxFirebase(firebase, rrfConfig)
+  reactReduxFirebase(firebase, rrfConfig),
+  reduxFirestore(firebase)
 )(createStore)
+
+// Add firebase to reducers
+const rootReducer = combineReducers({
+  firebase: firebaseReducer,
+  firestore: firestoreReducer
+})
