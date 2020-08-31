@@ -1,8 +1,8 @@
 import { createStore, combineReducers, compose } from 'redux'
-import firebase from "firebase";
+import firebase from "firebase/app";
 import 'firebase/firestore'
-import { reactReduxFirebase, firestoreReducer } from 'react-redux-firebase'
-import {reduxFirestore, firestoreReducer} from 'redux-firestore'
+import { ReactReduxFirebaseProvider, firebaseReducer } from 'react-redux-firebase'
+import {createFirestoreInstance, firestoreReducer} from 'redux-firestore'
 
 // reducers 
 //@todo
@@ -29,15 +29,29 @@ const rrfConfig = {
 firebase.initializeApp(firebaseConfig)
 
 // init firetore
-const firestore = firebase.firestore()
+const firestore = firebase.firestore() 
 
-const createStoreWithFirebase = compose(
-  reactReduxFirebase(firebase, rrfConfig),
-  reduxFirestore(firebase)
-)(createStore)
 
 // Add firebase to reducers
 const rootReducer = combineReducers({
   firebase: firebaseReducer,
   firestore: firestoreReducer
 })
+
+// create initial state
+const initialState = {}
+
+// create store
+const store = createStore(rootReducer, initialState, compose(
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+))
+
+export const rrfProps = {
+  firebase,
+  config: rrfConfig,
+  dispatch: store.dispatch,
+  createFirestoreInstance
+  // <- needed if using firestore
+}
+
+export default store

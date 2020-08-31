@@ -1,25 +1,24 @@
-import React from 'react';
+import React, { useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
+import { compose } from "redux";
+import { connect } from "react-redux";
+import { firestoreConnect } from "react-redux-firebase";
+import Spinner from '../layout/Spinner';
 
-function Clients() {
-  const clients = [
-    {
-      id: '222',
-      firstName: 'Kelvin',
-      lastName: 'Kelvin',
-      email: 'm@m.com',
-      phone: '333-333-333',
-      balance: '40',
-    },
-    {
-      id: '222',
-      firstName: 'Kelvin',
-      lastName: 'Kelvin',
-      email: 'm@m.com',
-      phone: '333-333-333',
-      balance: '40123',
-    },
-  ];
+function Clients(props) {
+  const { clients } = props
+
+  const [totalOwed, setTotalOwed] = useState(null)
+
+  useEffect(() => {
+    if (clients) {
+      const total = clients.reduce((total, client) =>{
+        return total + parseFloat(client.balance.toString())
+      }, 0)
+      setTotalOwed(total)
+    }
+
+  }, [clients])
 
   if (clients) {
     return (
@@ -31,7 +30,14 @@ function Clients() {
               <i className="fa fa-users"></i> Clients
             </h2>
           </div>
-          <div className="col-md-6" />
+          <div className="col-md-6">
+            <h5 className="text-right text-secondary">
+              Total Owed {' '}
+              <span className="text-primary">
+                ${parseFloat(totalOwed).toFixed(2)}
+              </span>
+            </h5>
+          </div>
         </div>
         <table className="table table-stripped">
           <thead className="thead-inverse">
@@ -65,8 +71,13 @@ function Clients() {
       </div>
     );
   } else {
-    return <h1>...loading</h1>;
+    return <Spinner />;
   }
 }
 
-export default Clients;
+export default compose(
+  firestoreConnect([{collection: 'clients'}]),
+  connect((state, props) => ({
+    clients: state.firestore.ordered.clients
+  }))
+)(Clients)
