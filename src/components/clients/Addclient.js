@@ -3,9 +3,10 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 // import { compose } from "redux";
 // import { connect } from "react-redux";
-import { firestoreConnect } from "react-redux-firebase";
+import { useFirestore } from "react-redux-firebase";
 
 function Addclient(props) {
+  const firestore = useFirestore()
   const [form, setForm] = useState({
     firstName: '',
     lastName: '',
@@ -26,7 +27,7 @@ function Addclient(props) {
 
     const newClient = form
 
-    const { firestore } = props
+    // const { firestore } = props
 
     if (newClient.balance === '') {
       newClient.balance = 0
@@ -87,7 +88,7 @@ function Addclient(props) {
               <div className="form-group">
                 <label htmlFor="firstName">Phone Number</label>
                 <input
-                  type="email"
+                  type="text"
                   className="form-control"
                   name="phone"
                   minLength="10"
@@ -118,4 +119,5 @@ function Addclient(props) {
   );
 }
 
-export default firestoreConnect()(Addclient);
+// export default firestoreConnect()(Addclient);
+export default Addclient;

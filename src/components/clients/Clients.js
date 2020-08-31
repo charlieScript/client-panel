@@ -1,15 +1,16 @@
 import React, { useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import { compose } from "redux";
-import { connect } from "react-redux";
-import { firestoreConnect } from "react-redux-firebase";
+import { connect, useSelector } from "react-redux";
+import { useFirestoreConnect } from "react-redux-firebase";
 import Spinner from '../layout/Spinner';
 
 function Clients(props) {
-  const { clients } = props
+  // const { clients } = props
 
   const [totalOwed, setTotalOwed] = useState(null)
-
+  useFirestoreConnect(['clients'])
+  const clients = useSelector(state => state.firestore.ordered.clients)
   useEffect(() => {
     if (clients) {
       const total = clients.reduce((total, client) =>{
@@ -19,6 +20,7 @@ function Clients(props) {
     }
 
   }, [clients])
+
 
   if (clients) {
     return (
@@ -75,9 +77,11 @@ function Clients(props) {
   }
 }
 
-export default compose(
-  firestoreConnect([{collection: 'clients'}]),
-  connect((state, props) => ({
-    clients: state.firestore.ordered.clients
-  }))
-)(Clients)
+export default Clients;
+
+// export default compose(
+//   usefirestoreConnect('clients'),
+//   connect((state, props) => ({
+//     clients: state.firestore.ordered.clients
+//   }))
+// )(Clients)
