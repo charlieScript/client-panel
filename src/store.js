@@ -29,7 +29,10 @@ const rrfConfig = {
 firebase.initializeApp(firebaseConfig)
 
 // init firetore
-const firestore = firebase.firestore() 
+const firestore = firebase.firestore()
+// to fix timestamp
+// const settings = { timeStampsInSnapshots: true}
+// firestore.settings(settings)
 
 
 // Add firebase to reducers

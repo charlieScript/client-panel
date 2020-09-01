@@ -14,6 +14,7 @@ function Clients() {
   
   const [totalOwed, setTotalOwed] = useState(null)
 
+  // onload data change
   useEffect(() => {
     if (clients) {
       const total = clients.reduce((total, client) =>{
