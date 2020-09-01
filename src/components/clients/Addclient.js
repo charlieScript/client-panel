@@ -30,7 +30,7 @@ function Addclient(props) {
     if (newClent.balance === '') {
       newClent.balance = 0;
     }
-     
+
     // after hiding to collection redirect
     firestore
       .add({ collection: 'clients' }, newClent)
