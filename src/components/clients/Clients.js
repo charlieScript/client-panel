@@ -1,16 +1,34 @@
 import React, { useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
+<<<<<<< HEAD
 import { compose } from "redux";
 import { connect, useSelector } from "react-redux";
 import { useFirestoreConnect } from "react-redux-firebase";
 import Spinner from '../layout/Spinner';
 
 function Clients(props) {
+=======
+// import {  } from "redux";
+import { useSelector } from "react-redux";
+import { useFirestoreConnect } from 'react-redux-firebase';
+import Spinner from '../layout/Spinner';
+
+function Clients() {
+  useFirestoreConnect(['clients']) // sync clients collection from firebase
+>>>>>>> 436fb1a6c6f4f03311079c124e0e2f02e35f6a83
   // const { clients } = props
 
+  // copy clients collection from database
+  const clients = useSelector((state) => state.firestore.ordered.clients);
+  
   const [totalOwed, setTotalOwed] = useState(null)
+<<<<<<< HEAD
   useFirestoreConnect(['clients'])
   const clients = useSelector(state => state.firestore.ordered.clients)
+=======
+
+  // onload data change
+>>>>>>> 436fb1a6c6f4f03311079c124e0e2f02e35f6a83
   useEffect(() => {
     if (clients) {
       const total = clients.reduce((total, client) =>{
@@ -78,9 +96,14 @@ function Clients(props) {
 }
 
 export default Clients;
+<<<<<<< HEAD
 
 // export default compose(
 //   usefirestoreConnect('clients'),
+=======
+// export default compose(
+//   firestoreConnect([{collection: 'clients'}]),
+>>>>>>> 436fb1a6c6f4f03311079c124e0e2f02e35f6a83
 //   connect((state, props) => ({
 //     clients: state.firestore.ordered.clients
 //   }))
