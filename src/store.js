@@ -1,12 +1,12 @@
-import { createStore, combineReducers, compose } from 'redux'
-import firebase from "firebase/app";
-import 'firebase/firestore'
-import { firebaseReducer } from 'react-redux-firebase'
-import {createFirestoreInstance, firestoreReducer} from 'redux-firestore'
+import { createStore, combineReducers, compose } from 'redux';
+import firebase from 'firebase/app';
+import 'firebase/firestore';
+import 'firebase/auth';
+import { firebaseReducer } from 'react-redux-firebase';
+import { createFirestoreInstance, firestoreReducer } from 'redux-firestore';
 
-// reducers 
+// reducers
 //@todo
-
 
 const firebaseConfig = {
   apiKey: 'AIzaSyAQpE1-NjLIQMZgKoztRUD393tnqw8SXVo',
@@ -22,39 +22,43 @@ const firebaseConfig = {
 // react-redux-firebase config
 const rrfConfig = {
   userProfile: 'users',
-  useFirestoreForProfile: true 
+  useFirestoreForProfile: true,
   // Firestore for Profile instead of Realtime DB
-}
+};
 
-firebase.initializeApp(firebaseConfig)
+firebase.initializeApp(firebaseConfig);
 
 // init firetore
-const firestore = firebase.firestore()
+const firestore = firebase.firestore();
 // to fix timestamp
 // const settings = { timeStampsInSnapshots: true}
 // firestore.settings(settings)
 
-
 // Add firebase to reducers
 const rootReducer = combineReducers({
   firebase: firebaseReducer,
-  firestore: firestoreReducer
-})
+  firestore: firestoreReducer,
+});
 
 // create initial state
-const initialState = {}
+const initialState = {};
 
 // create store
-const store = createStore(rootReducer, initialState, compose(
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-))
+const store = createStore(
+  rootReducer,
+  initialState,
+  compose(
+    window.__REDUX_DEVTOOLS_EXTENSION__ &&
+      window.__REDUX_DEVTOOLS_EXTENSION__(),
+  ),
+);
 
 export const rrfProps = {
   firebase,
   config: rrfConfig,
   dispatch: store.dispatch,
-  createFirestoreInstance
+  createFirestoreInstance,
   // <- needed if using firestore
-}
+};
 
-export default store
+export default store;

@@ -11,6 +11,7 @@ import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
 import Addclient from './components/clients/Addclient';
 import ClientDetails from './components/clients/ClientDetails';
 import EditClient from './components/clients/EditClient';
+import Login from './components/auth/Login';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
                 <Route exact path="/client/add" component={Addclient} />
                 <Route exact path="/client/:id" component={ClientDetails} />
                 <Route exact path="/client/edit/:id" component={EditClient} />
+                <Route exact path="/login" component={Login} />
               </Switch>
             </div>
           </div>
