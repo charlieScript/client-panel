@@ -1,20 +1,14 @@
-<<<<<<< HEAD
-import { createStore, combineReducers, compose } from 'redux'
-import firebase from "firebase/app";
-import 'firebase/firestore'
-import { firebaseReducer } from 'react-redux-firebase'
-import {createFirestoreInstance, firestoreReducer} from 'redux-firestore'
-=======
 import { createStore, combineReducers, compose } from 'redux';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
 import { firebaseReducer } from 'react-redux-firebase';
 import { createFirestoreInstance, firestoreReducer } from 'redux-firestore';
->>>>>>> 436fb1a6c6f4f03311079c124e0e2f02e35f6a83
 
 // reducers
 //@todo
+import {notifyReducer} from './reducers/notifyReducer'
+import { settingsReducer } from './reducers/settingsReducer';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyAQpE1-NjLIQMZgKoztRUD393tnqw8SXVo',
@@ -46,6 +40,8 @@ const firestore = firebase.firestore();
 const rootReducer = combineReducers({
   firebase: firebaseReducer,
   firestore: firestoreReducer,
+  notify: notifyReducer,
+  settings: settingsReducer
 });
 
 // create initial state
