@@ -45,7 +45,7 @@ function Register(props) {
     if (!settings.allowRegistration) {
       props.history.push('/')
     }
-  }, [props.history])
+  }, [props.history, settings.allowRegistration])
 
   
 
