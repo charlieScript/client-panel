@@ -2,9 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { useFirestore } from 'react-redux-firebase';
+import { useSelector } from "react-redux";
 
 function Addclient(props) {
   const firestore = useFirestore();
+  const settings = useSelector(state => state.settings)
+
+  const { disableBalanceOnAdd } = settings
 
   const [form, setForm] = useState({
     firstName: '',
@@ -112,6 +116,7 @@ function Addclient(props) {
                 required
                 value={form.balance}
                 onChange={onchange}
+                disabled={disableBalanceOnAdd}
               />
             </div>
             <input

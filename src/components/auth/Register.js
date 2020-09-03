@@ -7,15 +7,18 @@ import { useSelector, useDispatch } from 'react-redux';
 // actions
 import { notifyUser } from '../../actions/notifyActions';
 import Alert from '../layout/Alert';
+import { useEffect } from 'react';
 
-function Login() {
+function Register(props) {
   const dispatch = useDispatch();
   const firebase = useFirebase();
   const [form, setForm] = useState({
     email: '',
     password: '',
   });
-
+// notify state and settings
+  const notify = useSelector((state) => state.notify);
+  const settings = useSelector((state) => state.settings);
   const inputChange = (e) => {
     setForm({
       ...form,
@@ -28,17 +31,23 @@ function Login() {
     e.preventDefault();
 
     firebase
-      .login({
+      .createUser({
         email,
         password,
       })
       .catch((err) =>
-        dispatch(notifyUser('Invalid Login Credentials', 'error')),
+        dispatch(notifyUser('User Already Exist', 'error')),
       );
   };
 
-  // notify state
-  const notify = useSelector((state) => state.notify);
+  // ifregistration isnnt allow redirect
+  useEffect(() => {
+    if (!settings.allowRegistration) {
+      props.history.push('/')
+    }
+  }, [props.history])
+
+  
 
   return (
     <div className="row">
@@ -52,7 +61,7 @@ function Login() {
               />
             ) : null}
             <h1 className="text-center pb-4 pt-3">
-              <i className="fa fa-lock"></i> Login
+              <i className="fa fa-lock"></i> Register
             </h1>
             <form onSubmit={onsubmit}>
               <div className="form-group">
@@ -77,7 +86,7 @@ function Login() {
                   onChange={inputChange}
                 />
               </div>
-              <input type="submit" value="Login" className="btn btn-primary" />
+              <input type="submit" value="Register" className="btn btn-primary" />
             </form>
           </div>
         </div>
@@ -86,4 +95,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Register;

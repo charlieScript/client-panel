@@ -7,7 +7,7 @@ import { createFirestoreInstance, firestoreReducer } from 'redux-firestore';
 
 // reducers
 //@todo
-import {notifyReducer} from './reducers/notifyReducer'
+import { notifyReducer } from './reducers/notifyReducer';
 import { settingsReducer } from './reducers/settingsReducer';
 
 const firebaseConfig = {
@@ -31,7 +31,7 @@ const rrfConfig = {
 firebase.initializeApp(firebaseConfig);
 
 // init firetore
-const firestore = firebase.firestore();
+// const firestore = firebase.firestore();
 // to fix timestamp
 // const settings = { timeStampsInSnapshots: true}
 // firestore.settings(settings)
@@ -41,11 +41,25 @@ const rootReducer = combineReducers({
   firebase: firebaseReducer,
   firestore: firestoreReducer,
   notify: notifyReducer,
-  settings: settingsReducer
+  settings: settingsReducer,
 });
 
+// check for settings in local storage
+if (localStorage.getItem('settings') === null) {
+  const defaultSettings = {
+    disableBalanceOnAdd: true,
+    disableBalanceOnEdit: false,
+    allowRegistration: false,
+  };
+
+  // set to local storage
+  localStorage.setItem('settings', JSON.stringify(defaultSettings));
+}
+
 // create initial state
-const initialState = {};
+const initialState = {
+  settings: JSON.parse(localStorage.getItem('settings'))
+};
 
 // create store
 const store = createStore(

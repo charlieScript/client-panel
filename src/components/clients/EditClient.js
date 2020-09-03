@@ -8,6 +8,8 @@ import { createRef } from 'react';
 function EditClient(props) {
   const firestore = useFirestore();
   // to update we set the input values to the one gotten from the client as (defaultValue) then we create a refrence thr each to update the values 🥺
+  const settings = useSelector(state => state.settings)
+  const { disableBalanceOnEdit } = settings;
 
   // REFS
   const firstNameInput = createRef();
@@ -122,6 +124,7 @@ function EditClient(props) {
                   required
                   ref={balanceInput}
                   defaultValue={client.balance}
+                  disabled={disableBalanceOnEdit}
                 />
               </div>
               <input

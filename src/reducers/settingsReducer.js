@@ -1,20 +1,28 @@
-import { NOTIFY_USER } from "../actions/types";
+import {
+  DISABLE_BALANCE_ON_ADD,
+  DISABLE_BALANCE_ON_EDIT,
+  ALLOW_REGISTRATION,
+} from '../actions/types';
 
 
-const initialState = {
-  message: null,
-  messageType: null
-}
-
-export const settingsReducer = (state = initialState, action) => {
+export const settingsReducer = (state = {}, action) => {
   switch (action.type) {
-    case NOTIFY_USER:
+    case DISABLE_BALANCE_ON_ADD:
       return {
         ...state,
-        message: action.message,
-        messageType: action.messageType
-      }
+        disableBalanceOnAdd: action.payload,
+      };
+    case DISABLE_BALANCE_ON_EDIT:
+      return {
+        ...state,
+        disableBalanceOnEdit: action.payload,
+      };
+    case ALLOW_REGISTRATION:
+      return {
+        ...state,
+        allowRegistration: action.payload,
+      };
     default:
-      return state;  
+      return state;
   }
-}
+};
